@@ -11,3 +11,7 @@ R
 "tests/invoice-tokenization.test.ts,9/9/996ce958970231e17cf5edf907a833f33c50ed93
 T
 $tests/inventory-verification.test.ts,8/2/820b383b0de21779cb967a32f4eda97bcea47691
+S
+#contracts/financing-management.clar,4/6/468742914a4d8df49416e242d0455de11179e964
+S
+#contracts/invoice-tokenization.clar,f/c/fc6370e13f236cd8dff7e6803a6d6a9f17d50ae8

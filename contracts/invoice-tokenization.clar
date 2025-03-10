@@ -1,30 +1,39 @@
+;; Invoice Tokenization Contract
 
-;; title: invoice-tokenization
-;; version:
-;; summary:
-;; description:
+;; Data Maps
+(define-map invoices
+  { invoice-id: uint }
+  { issuer: principal, amount: uint, status: (string-ascii 20) })
 
-;; traits
-;;
+(define-map invoice-tokens
+  { token-id: uint }
+  { owner: principal, invoice-id: uint })
 
-;; token definitions
-;;
+;; Variables
+(define-data-var next-token-id uint u1)
 
-;; constants
-;;
+;; Public Functions
+(define-public (tokenize-invoice (invoice-id uint) (amount uint))
+  (let ((caller tx-sender)
+        (token-id (var-get next-token-id)))
+    (if (is-eq (map-get? invoices { invoice-id: invoice-id }) none)
+      (begin
+        (map-set invoices { invoice-id: invoice-id } { issuer: caller, amount: amount, status: "tokenized" })
+        (map-set invoice-tokens { token-id: token-id } { owner: caller, invoice-id: invoice-id })
+        (var-set next-token-id (+ token-id u1))
+        (ok token-id))
+      (err u1))))
 
-;; data vars
-;;
+(define-public (transfer-token (token-id uint) (recipient principal))
+  (let ((token (unwrap! (map-get? invoice-tokens { token-id: token-id }) (err u2))))
+    (if (is-eq (get owner token) tx-sender)
+      (ok (map-set invoice-tokens { token-id: token-id } (merge token { owner: recipient })))
+      (err u3))))
 
-;; data maps
-;;
+;; Read-only Functions
+(define-read-only (get-invoice (invoice-id uint))
+  (map-get? invoices { invoice-id: invoice-id }))
 
-;; public functions
-;;
-
-;; read only functions
-;;
-
-;; private functions
-;;
+(define-read-only (get-token (token-id uint))
+  (map-get? invoice-tokens { token-id: token-id }))
 
