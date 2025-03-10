@@ -15,3 +15,5 @@ S
 #contracts/financing-management.clar,4/6/468742914a4d8df49416e242d0455de11179e964
 S
 #contracts/invoice-tokenization.clar,f/c/fc6370e13f236cd8dff7e6803a6d6a9f17d50ae8
+R
+"tests/financing-management.test.ts,0/6/06363931430c558cbcb53819db742fee73d72d1d
